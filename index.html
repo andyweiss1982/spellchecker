@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Manual Spellcheck Example</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      main {
+        margin: 1rem auto;
+        background-color: azure;
+      }
+      textarea {
+        resize: none;
+        width: 100%;
+        min-height: 20rem;
+      }
+      .typo {
+        text-decoration: underline wavy red;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Spell ✅</h1>
+    <h2>It <i>mostly</i> works</h2>
+    <textarea id="input" spellcheck="false"></textarea>
+    <main id="main"></main>
+    <script>
+      let words = [];
+
+      fetch("./words")
+        .then((response) => response.text())
+        .then(
+          (data) => (words = data.split("\n").map((word) => word.toLowerCase()))
+        );
+
+      input.addEventListener("keyup", function () {
+        main.innerHTML = this.value
+          .split(" ")
+          .map((wordWithPunctuation) => {
+            const actualWord = wordWithPunctuation.replace(/\W/g, "");
+            if (words.includes(actualWord.toLowerCase())) {
+              return wordWithPunctuation;
+            } else {
+              return wordWithPunctuation.replace(
+                actualWord,
+                `<span class="typo">${actualWord}</span>`
+              );
+            }
+          })
+          .join(" ");
+      });
+    </script>
+  </body>
+</html>
