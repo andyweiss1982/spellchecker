@@ -44,10 +44,9 @@
             if (words.includes(actualWord.toLowerCase())) {
               return wordWithPunctuation;
             } else {
-              return wordWithPunctuation.replace(
-                actualWord,
-                `<span class="typo">${actualWord}</span>`
-              );
+              return wordWithPunctuation
+                .replace(actualWord, `<span class="typo">${actualWord}</span>`)
+                .replace(/\n/g, "<br/>");
             }
           })
           .join(" ");
